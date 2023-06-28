@@ -81,6 +81,20 @@ java -jar -Dsecrets.bundle.filename=service/config/sample-secrets-bundle.yml ser
 
 - Current documentation on getting the Android app running and connected to this server is [here](https://github.com/JJTofflemire/Signal-Android)
 
+## Removing zkgroup dependancies
+
+- In [`WhisperServerService.java`](service/src/main/java/org/whispersystems/textsecuregcm/WhisperServerService.java), comment out lines 639, 739-40, 773-777
+
+- Then run the following (make sure to back up stuff)
+
+```
+mvn clean install -Dmaven.test.skip=true -Pexclude-spam-filter
+
+mvn install -Dmaven.test.skip=true -Pexclude-spam-filter
+```
+
+- In `Post-Surgery`, this has already been done
+
 ## To-Do
 
 ### Configuring the server:
