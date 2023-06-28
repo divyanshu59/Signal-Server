@@ -182,7 +182,7 @@ export AWS_SECRET_ACCESS_KEY=secret
 
 - Under `Configuration Profiles and Feature Flags`, hit `CREATE` and choose `Feature Flag`. Enter a name and hit `Freeform configuration profile`
 
-- Select `JSON` as the type of `Feature Flag`
+- Select `YAML` as the type of `Feature Flag`
 
   - Enter the following lines:
 
