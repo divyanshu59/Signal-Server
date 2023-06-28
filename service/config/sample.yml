@@ -10,10 +10,10 @@ logging:
       threshold: ALL
       timeZone: UTC
       target: stdout
-    - type: logstashtcpsocket
-      destination: example.com:10516
-      apiKey: secret://datadog.apiKey
-      environment: staging
+#    - type: logstashtcpsocket
+#      destination: example.com:10516
+#      apiKey: secret://datadog.apiKey
+#      environment: staging
 
 metrics:
   reporters:
