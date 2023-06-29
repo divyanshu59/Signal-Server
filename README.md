@@ -14,6 +14,12 @@
 - [A script for fast recloning, compiling, and running](server-recloner.sh)
 - [Dependancies installation notes for Ubuntu / Debian](dependancies.md)
 
+### post-surgery
+- [post-surgery `quickstart.sh`](surgerystart.sh)
+- [post-surgery `config-surgery.yml`](config-surgery.yml)
+- [post-surgery `config-secrets-bundle.yml`](config-secrets-bundle-surgery.yml)
+- [post-surgery `docker-compose.yml](docker-compose-surgery.yml)
+
 ## Dependancies
 
 - Java (openjdk)
@@ -43,9 +49,25 @@ For quick recloning, [here](server-recloner.sh) is a script that moves personal 
 
 ## Configuration
 
-Fill out `sample.yml` and `sample-secrets-bundle.yml`, located in `service/config/`
+### Fill out `sample.yml` and `sample-secrets-bundle.yml`, located in `service/config/`
 
 - Any configuration notes related to these two `.yml` files are located [here](config-documentation.md)
+
+### Removing zkgroup dependancies
+
+- In [`WhisperServerService.java`](service/src/main/java/org/whispersystems/textsecuregcm/WhisperServerService.java), comment out lines 639, 739-40, 773-777
+
+- Then run the following (make sure to back up all personal config bits)
+
+```
+mvn clean install -Dmaven.test.skip=true -Pexclude-spam-filter
+
+mvn install -Dmaven.test.skip=true -Pexclude-spam-filter
+```
+
+- In `Post-Surgery`, this has already been done
+
+- This surgery is done to remove the `genericZkConfig.serverSecret` dependancy (and probably `zkConfig.serverSecret`) because Signal-Server requires `genericZkConfig` and provides no documentation on it or a way to generate it. It is definitely solvable but not within the timeframe that I have
 
 ## Starting the server
 
@@ -74,38 +96,28 @@ java -jar -Dsecrets.bundle.filename=service/config/sample-secrets-bundle.yml ser
 - Currently, `quickstart.sh` exports any environmental variables needed by the server so that they don't have to live permanently in `.bashrc`
 
   - If you want to do the same thing, make a `secrets.sh` file with the AWS environmental variables from [config-documentation.md](config-documentation.md#aws-iam-configuration) - [here](sample-secrets.sh) is a `sample-secrets.sh`
-  
+
 - `quickstart.sh` also automatically stops all dependancies when it recieves a keyboard interrupt (Ctrl+C) or when the server crashes
+
+### [surgerystart.sh](surgerystart.sh) in `post-surgery`
+
+- Inside the branch `post-surgery`, a seperate bash script is used to seperate config and startup with or without `zkconfig`
+
+- It works the same way as `quickstart.sh`, but it refers to `docker-compose-surgery.yml`, `config-surgery.yml`, and `config-secrets-bundle-surgery.yml`
 
 ## Connecting the server to an Android app (unfinished)
 
 - Current documentation on getting the Android app running and connected to this server is [here](https://github.com/JJTofflemire/Signal-Android)
 
-## Removing zkgroup dependancies
-
-- In [`WhisperServerService.java`](service/src/main/java/org/whispersystems/textsecuregcm/WhisperServerService.java), comment out lines 639, 739-40, 773-777
-
-- Then run the following (make sure to back up stuff)
-
-```
-mvn clean install -Dmaven.test.skip=true -Pexclude-spam-filter
-
-mvn install -Dmaven.test.skip=true -Pexclude-spam-filter
-```
-
-- In `Post-Surgery`, this has already been done
-
 ## To-Do
 
 ### Configuring the server:
-
-- Figure out what to put in `genericZkConfig` - is it the same as `zkConfig`?
 
 - Figure out what configuration [appConfig](config-documentation.md#aws-appconfig) wants in its .json file
 
 - Add firebase documentation to Signal-Android and change the folder structure in Signal-Android
 
-- Troubleshoot `recaptcha`
+- Get `redis-cluster` recognizable and usable by Signal-Server
 
 ### Running the server:
 

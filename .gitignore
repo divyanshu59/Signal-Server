@@ -33,6 +33,11 @@ deployer.log
 # my .gitignores
 .vscode
 config.yml
+config-surgery.yml
 config-secrets-bundle.yml
+config-secrets-bundle-surgery.yml
 .DS*
 secrets.sh
+data
+redis_replication
+redis_main
