@@ -18,19 +18,21 @@ cd Signal-Server
 
 git checkout post-surgery
 
-mvn clean install -DskipTests -Pexclude-spam-filter
-
-cd ../
+cd ..
 
 mv config.yml Signal-Server
 mv config-secrets-bundle.yml Signal-Server
 mv secrets.sh Signal-Server
 
-mv Signal-Server/config-surgery.yml ./
-mv Signal-Server/config-secrets-bundle-surgery.yml ./
-mv ./ Signal-Server/data
-mv ./ Signal-Server/redis_main
-mv ./ Signal-Server/redis_replication
+mv ./config-surgery.yml Signal-Server
+mv ./config-secrets-bundle-surgery.yml Signal-Server
+mv ./data Signal-Server
+mv ./redis_main Signal-Server
+mv ./redis_replication Signal-Server
+
+cd Signal-Server
+
+mvn clean install -DskipTests -Pexclude-spam-filter
 
 read -p "Do you want to start Signal-Server? (Press Enter to continue type 'n' to exit): " choice
 
