@@ -11,7 +11,7 @@ if [[ -n "$jar_file" && -f "$jar_file" ]]; then
   source secrets.sh
 
   # You may have to add or remove sudo here
-  docker-compose -f docker-compose-surgery.yml up -d
+  docker-compose -f docker/docker-compose-surgery-2.yml up -d
 
   # Start the server with the selected JAR file and configuration
   java -jar -Dsecrets.bundle.filename=config-secrets-bundle-surgery.yml "$jar_file" server config-surgery.yml
@@ -37,7 +37,7 @@ if [[ $choice == "n" ]]; then
   echo -e "\nExiting..."
 else
   # Stop the server and clean up -ChatGPT
-  docker-compose -f docker-compose-surgery.yml down
+  docker-compose -f docker/docker-compose-surgery-2.yml down
 
   echo -e "\nStopped docker-compose dependancies"
 fi

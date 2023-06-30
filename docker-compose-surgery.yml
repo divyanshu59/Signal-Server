@@ -1,4 +1,5 @@
-version: '3'
+version: '3.7'
+
 services:
   fix-redis-volume-ownership: # This service is to authorise redis-master with ownership permissions
     image: 'bitnami/redis:latest'
@@ -7,29 +8,28 @@ services:
     volumes:
       - ./data/redis:/bitnami
       - ./data/redis/conf/redis.conf:/opt/bitnami/redis/conf/redis.conf
+      - ./data/redis/nodes.conf:/opt/bitnami/redis/nodes.conf
 
   redis-master: # Setting up master node
     image: 'bitnami/redis:latest'
     ports:
-      - '6379:6379'
-    command: redis-server /opt/bitnami/redis/conf/redis.conf --cluster-enabled yes --cluster-config-file redis_main/nodes.conf --cluster-node-timeout 5000 --appendonly yes
+      - '6379:6379' # Port 6329 will be exposed to handle connections from outside server 
     environment:
       - REDIS_REPLICATION_MODE=master # Assigning the node as a master
       - ALLOW_EMPTY_PASSWORD=yes # No password authentication required/ provide password if needed
     volumes:
       - ./data/redis:/bitnami # Redis master data volume
       - ./data/redis/conf/redis.conf:/opt/bitnami/redis/conf/redis.conf # Redis master configuration volume
-
+      - ./data/redis/nodes.conf:/opt/bitnami/redis/nodes.conf
 
   redis-replica: # Setting up slave node
     image: 'bitnami/redis:latest'
     ports:
       - '6379' # No port is exposed 
-    command: redis-server /opt/bitnami/redis/conf/redis.conf --cluster-enabled yes --cluster-config-file redis_replica/nodes.conf --cluster-node-timeout 5000 --appendonly yes
     depends_on:
       - redis-master # will only start after the master has booted completely
     environment:
       - REDIS_REPLICATION_MODE=slave # Assigning the node as slave
-      - REDIS_MASTER_HOST=redis-master # Host for the slave node is the redis-master node
+      - REDIS_MASTER_HOST=179.19.0.2  # Host for the slave node is the redis-master node
       - REDIS_MASTER_PORT_NUMBER=6379 # Port number for local 
       - ALLOW_EMPTY_PASSWORD=yes # No password required to connect to node
