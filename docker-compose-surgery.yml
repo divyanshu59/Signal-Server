@@ -1,3 +1,4 @@
+version: '3'
 services:
   fix-redis-volume-ownership: # This service is to authorise redis-master with ownership permissions
     image: 'bitnami/redis:latest'
@@ -10,7 +11,8 @@ services:
   redis-master: # Setting up master node
     image: 'bitnami/redis:latest'
     ports:
-      - '6329:6379' # Port 6329 will be exposed to handle connections from outside server 
+      - '6379:6379'
+    command: redis-server /opt/bitnami/redis/conf/redis.conf --cluster-enabled yes --cluster-config-file redis_main/nodes.conf --cluster-node-timeout 5000 --appendonly yes
     environment:
       - REDIS_REPLICATION_MODE=master # Assigning the node as a master
       - ALLOW_EMPTY_PASSWORD=yes # No password authentication required/ provide password if needed
@@ -23,6 +25,7 @@ services:
     image: 'bitnami/redis:latest'
     ports:
       - '6379' # No port is exposed 
+    command: redis-server /opt/bitnami/redis/conf/redis.conf --cluster-enabled yes --cluster-config-file redis_replica/nodes.conf --cluster-node-timeout 5000 --appendonly yes
     depends_on:
       - redis-master # will only start after the master has booted completely
     environment:

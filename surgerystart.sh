@@ -10,10 +10,10 @@ if [[ -n "$jar_file" && -f "$jar_file" ]]; then
   # Export the environmental variables when starting the server instead of keeping them in .bashrc
   source secrets.sh
 
-docker-compose -f docker-compose-surgery.yml down
+#docker-compose -f docker-compose-surgery.yml down
 
   # You may have to add or remove sudo here
-  docker-compose -f docker-compose-surgery.yml up -d
+#  docker-compose -f docker-compose-surgery.yml up -d
 
   # Start the server with the selected JAR file and configuration
   java -jar -Dsecrets.bundle.filename=config-secrets-bundle-surgery.yml "$jar_file" server config-surgery.yml
@@ -24,14 +24,14 @@ else
 fi
 
 # Get the process ID (PID) of the Java process -ChatGPT
-JAVA_PID=$!
+#JAVA_PID=$!
 
 # Wait for the Java process to exit -ChatGPT
-while kill -0 $JAVA_PID > /dev/null 2>&1; do
-    sleep 1
-done
+#while kill -0 $JAVA_PID > /dev/null 2>&1; do
+#    sleep 1
+#done
 
- Stop the server and clean up -ChatGPT
-docker-compose down
+# Stop the server and clean up -ChatGPT
+#docker-compose -f docker-compose-surgery.yml down
 
-echo -e "\nStopped $jar_file"
+#echo -e "\nStopped $jar_file"
