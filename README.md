@@ -3,7 +3,17 @@
 - Written for Signal-Server v9.81.0
 - Documented with a Debian-based server implementation in mind, though nothing besides the dependancies notes should be Debian-specific
 
+## Branches
+
+- Currently this project is split into two branches: [main](https://github.com/JJTofflemire/Signal-Server/tree/main) and [post-surgery](https://github.com/JJTofflemire/Signal-Server/tree/post-surgery)
+
+  - `main` is for the original Signal-Server v9.81.0 source code and `post-surgery` is for any modifications made to the source code
+
+    - Currently, `post-surgery` has only removed the `zkconfig` dependancy
+
 ## Useful Resources
+
+### General Resources
 
 - [The Signal-Android repo with instructions on how to connect it to this server](https://github.com/JJTofflemire/Signal-Android)
 - [Documentation on filling out a sample.yml](config-documentation.md)
@@ -14,11 +24,12 @@
 - [A script for fast recloning, compiling, and running](server-recloner.sh)
 - [Dependancies installation notes for Ubuntu / Debian](dependancies.md)
 
-### post-surgery
-- [post-surgery `quickstart.sh`](surgerystart.sh)
-- [post-surgery `config-surgery.yml`](config-surgery.yml)
-- [post-surgery `config-secrets-bundle.yml`](config-secrets-bundle-surgery.yml)
-- [post-surgery `docker-compose.yml](docker-compose-surgery.yml)
+### Post-surgery Resources
+
+- [Post-surgery `quickstart.sh`](surgerystart.sh)
+- [Post-surgery `config-surgery.yml`](config-surgery.yml)
+- [Post-surgery `config-secrets-bundle.yml`](config-secrets-bundle-surgery.yml)
+- [Post-surgery `docker-compose.yml](docker-compose-surgery.yml)
 
 ## Dependancies
 
@@ -43,7 +54,7 @@ Compile with:
 mvn clean install -DskipTests -Pexclude-spam-filter
 ```
 
-For quick recloning, [here](server-recloner.sh) is a script that moves personal `config.yml`, `config-secrets-bundle.yml`, and `secrets.sh` files out of `Signal-Server` before recloning and rebuilding with `source server-recloner.sh`
+For quick recloning, [here](surgery-server-recloner.sh) is a script specifically for the `post-surgery` branch that moves all personal files out of `Signal-Server` before recloning and rebuilding with `source surgery-server-recloner.sh`
 
 - Make sure you move `sever-recloner.sh` one directory up from `Signal-Server`
 

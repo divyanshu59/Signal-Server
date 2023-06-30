@@ -16,6 +16,8 @@ git clone https://github.com/JJTofflemire/Signal-Server
 
 cd Signal-Server
 
+git checkout post-surgery
+
 mvn clean install -DskipTests -Pexclude-spam-filter
 
 cd ../
@@ -37,5 +39,5 @@ if [[ $choice == "n" ]]; then
 else
   cd Signal-Server
   echo -e "\n"
-  source quickstart.sh
+  source surgerystart.sh
 fi
